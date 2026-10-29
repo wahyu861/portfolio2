@@ -1,0 +1,867 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <style>
+      :root {
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font:
+          14px -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: #fff;
+        color: #000;
+      }
+      img {
+        max-width: 100%;
+      }
+      [hidden]:not([hidden="until-found" i]) {
+        display: none !important;
+      }
+
+      /* Layout: kolom heading di kiri dan isi di kanan, hero berisi nama besar dan kartu label resi */
+      :root {
+        --bg: #f2f5f7;
+        --surface: #ffffff;
+        --ink: #0f2438;
+        --body: #2c4155;
+        --muted: #566b7c;
+        --line: #d8e1e8;
+        --accent: #087f8c;
+        --accent-ink: #ffffff;
+        --signal: #f2a93b;
+        --signal-ink: #3a2500;
+        --band: #0f2438;
+        --band-ink: #eaf1f6;
+        --band-muted: #b5c6d3;
+        --band-line: #2b4258;
+
+        --font-display: "Bricolage Grotesque", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0b1620;
+          --surface: #122130;
+          --ink: #eaf1f6;
+          --body: #c5d3de;
+          --muted: #93a8b8;
+          --line: #23364a;
+          --accent: #43c1cc;
+          --accent-ink: #06222a;
+          --signal: #f2b04a;
+          --signal-ink: #3a2500;
+          --band: #16344a;
+          --band-ink: #eaf1f6;
+          --band-muted: #b5c6d3;
+          --band-line: #2e4d66;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0b1620;
+        --surface: #122130;
+        --ink: #eaf1f6;
+        --body: #c5d3de;
+        --muted: #93a8b8;
+        --line: #23364a;
+        --accent: #43c1cc;
+        --accent-ink: #06222a;
+        --signal: #f2b04a;
+        --signal-ink: #3a2500;
+        --band: #16344a;
+        --band-ink: #eaf1f6;
+        --band-muted: #b5c6d3;
+        --band-line: #2e4d66;
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: auto;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          scroll-behavior: smooth;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--body);
+        font: 17px/1.6 var(--font-body);
+        -webkit-font-smoothing: antialiased;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0 0 auto;
+        height: env(safe-area-inset-top, 0px);
+        z-index: 10;
+        background: var(--surface);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      p,
+      dl,
+      dd,
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      ul {
+        list-style: none;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: 1100px;
+        margin-inline: auto;
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+      }
+
+      /* Header */
+      .top {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 20;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+      }
+      .top .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 4px 20px;
+        padding-block: 10px;
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 19px;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        font-variation-settings: "wdth" 80;
+      }
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .nav a {
+        padding: 6px 10px;
+        border-radius: 6px;
+        color: var(--muted);
+      }
+      .nav a:hover {
+        color: var(--accent);
+        background: var(--bg);
+      }
+
+      /* Hero */
+      .hero {
+        padding-block: clamp(40px, 7vw, 88px);
+        border-bottom: 1px solid var(--line);
+      }
+      .hero .wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        gap: 40px 56px;
+        align-items: center;
+      }
+      .hero-text {
+        min-width: 0;
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(56px, 12vw, 124px);
+        line-height: 0.9;
+        letter-spacing: -0.025em;
+        color: var(--ink);
+        font-variation-settings: "wdth" 75;
+        text-wrap: balance;
+      }
+      h1 span {
+        display: block;
+      }
+      .lead {
+        margin-top: 26px;
+        max-width: 44ch;
+        font-size: 20px;
+        line-height: 1.5;
+        color: var(--body);
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: var(--accent-ink);
+        font: 600 15px/1.2 var(--font-body);
+        cursor: pointer;
+        transition: filter 0.15s;
+      }
+      .btn:hover {
+        filter: brightness(1.08);
+      }
+      .btn.ghost {
+        background: var(--surface);
+        border-color: var(--line);
+        color: var(--ink);
+      }
+      .btn.ghost:hover {
+        border-color: var(--accent);
+        filter: none;
+      }
+
+      /* Kartu label resi */
+      .box {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 13%;
+        padding: 25px;
+      }
+      .box h2 {
+        color: var(--navy);
+        margin-bottom: 15px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .avatar {
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: var(--ink);
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 24px;
+      }
+      .label dl > div {
+        padding: 14px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .label dl > div:last-child {
+        border-bottom: 0;
+      }
+      .label dt {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .label dd {
+        margin-top: 2px;
+        font-weight: 600;
+        color: var(--ink);
+        overflow-wrap: anywhere;
+      }
+
+      /* Seksi */
+      .sec {
+        padding-block: clamp(44px, 7vw, 84px);
+        scroll-margin-top: 64px;
+      }
+      .sec + .sec {
+        border-top: 1px solid var(--line);
+      }
+      .sec > .wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 230px) minmax(0, 1fr);
+        gap: 20px 56px;
+      }
+      h2 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(28px, 4vw, 38px);
+        line-height: 1.05;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+        font-variation-settings: "wdth" 85;
+        text-wrap: balance;
+      }
+      .sec-body {
+        min-width: 0;
+      }
+
+      .about {
+        max-width: 62ch;
+        font-size: 19px;
+        line-height: 1.7;
+      }
+
+      /* Keahlian */
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 40px;
+      }
+      .skills li {
+        padding: 18px 0 20px;
+        border-top: 1px solid var(--line);
+      }
+      .skills h3 {
+        font: 700 18px/1.3 var(--font-display);
+        color: var(--ink);
+        font-variation-settings: "wdth" 90;
+      }
+      .skills p {
+        margin-top: 4px;
+        font-size: 16px;
+        color: var(--muted);
+      }
+
+      /* Pengalaman */
+      .job {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr);
+        gap: 4px 28px;
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+      }
+      .job:first-child {
+        padding-top: 0;
+        border-top: 0;
+      }
+      .date {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+        padding-top: 3px;
+      }
+      .current .date::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: var(--signal);
+      }
+      .job h3 {
+        font: 700 21px/1.25 var(--font-display);
+        color: var(--ink);
+        font-variation-settings: "wdth" 90;
+      }
+      .org {
+        margin-top: 2px;
+        font-weight: 600;
+        color: var(--body);
+      }
+      .desc {
+        margin-top: 8px;
+        max-width: 60ch;
+        color: var(--muted);
+      }
+
+      /* Pendidikan */
+      .edu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px 40px;
+      }
+      .edu h3 {
+        font: 700 20px/1.2 var(--font-display);
+        color: var(--ink);
+        font-variation-settings: "wdth" 90;
+        padding-bottom: 12px;
+        border-bottom: 2px solid var(--ink);
+      }
+      .edu-item {
+        padding: 16px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .edu-item h4 {
+        font: 700 17px/1.3 var(--font-body);
+        color: var(--ink);
+      }
+      .edu-item p {
+        margin-top: 2px;
+        font-size: 16px;
+        color: var(--muted);
+      }
+
+      /* Proyek */
+      .project {
+        background: var(--band);
+        color: var(--band-ink);
+        padding-block: clamp(40px, 6vw, 64px);
+      }
+      .project .wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px 40px;
+        align-items: end;
+      }
+      .project .kicker {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--band-muted);
+      }
+      .project h2 {
+        margin-top: 6px;
+        color: var(--band-ink);
+        font-size: clamp(28px, 4.4vw, 44px);
+      }
+      .project p.what {
+        margin-top: 14px;
+        max-width: 58ch;
+        font-size: 18px;
+        color: var(--band-muted);
+      }
+      .stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .stack li {
+        padding: 5px 12px;
+        border: 1px solid var(--band-line);
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--band-ink);
+      }
+      .project .btn {
+        background: var(--band-ink);
+        border-color: var(--band-ink);
+        color: var(--band);
+      }
+
+      /* Kontak */
+      .contact {
+        background: var(--surface);
+        border-top: 1px solid var(--line);
+      }
+      .contact-list > div {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 6px 16px;
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+      }
+      .contact-list > div:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .contact-list dt {
+        font-size: 15px;
+        color: var(--muted);
+      }
+      .contact-list dd {
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--ink);
+        overflow-wrap: anywhere;
+        min-width: 0;
+      }
+      .copy {
+        min-height: 40px;
+        padding: 6px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--bg);
+        color: var(--ink);
+        font: 600 14px/1 var(--font-body);
+        cursor: pointer;
+      }
+      .copy:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .contact .actions {
+        margin-top: 24px;
+      }
+
+      footer {
+        padding-block: 22px;
+        text-align: center;
+        font-size: 14px;
+        color: var(--muted);
+        background: var(--bg);
+        border-top: 1px solid var(--line);
+      }
+      footer .wrap {
+        padding-block: 0;
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        z-index: 40;
+        max-width: calc(100% - 32px);
+        transform: translate(-50%, 12px);
+        padding: 10px 16px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: var(--bg);
+        font-size: 15px;
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+      }
+      .toast.on {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      @media (max-width: 860px) {
+        .hero .wrap {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .sec > .wrap {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .project .wrap {
+          grid-template-columns: minmax(0, 1fr);
+          align-items: start;
+        }
+      }
+      @media (max-width: 640px) {
+        .skills,
+        .edu {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .job {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .date {
+          padding-top: 0;
+        }
+        .contact-list > div {
+          grid-template-columns: minmax(0, 1fr) auto;
+        }
+        .contact-list dt {
+          grid-column: 1 / -1;
+        }
+        .contact-list > div.plain {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .toast,
+        .btn {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <title>Portofolio M. Eko Wahyudi</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Sans+3:wght@400;600;700&display=swap" />
+    <header class="top">
+      <div class="wrap">
+        <a class="brand" href="#home">Eko Wahyudi</a>
+        <nav class="nav" aria-label="Navigasi utama">
+          <a href="#profil">Profil</a>
+          <a href="#keahlian">Keahlian</a>
+          <a href="#pengalaman">Pengalaman</a>
+          <a href="#pendidikan">Pendidikan</a>
+          <a href="#kontak">Kontak</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="wrap">
+          <div class="hero-text">
+            <h1><span>M. Eko</span><span>Wahyudi</span></h1>
+            <p class="lead">Pengalaman di bidang operasional, administrasi, pergudangan, pengolahan data, dan dukungan IT.</p>
+            <div class="actions">
+              <a class="btn" href="#pengalaman">Lihat Pengalaman</a>
+              <a class="btn ghost" href="#kontak">Hubungi Saya</a>
+            </div>
+          </div>
+          <aside class="box">
+            <img class="avatar" src="foto.png" alt="M. Eko Wahyudi" />
+            <h2>Profil Singkat</h2>
+            <p class="muted">Lulusan S1 Ilmu Komputer · Kota Pasuruan</p>
+            <p>Operasional · Administrasi · Warehouse · IT</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="sec" id="profil">
+        <div class="wrap">
+          <h2>Tentang Saya</h2>
+          <div class="sec-body">
+            <p class="about">
+              Lulusan S1 Ilmu Komputer dengan pengalaman di bidang operasional, administrasi, pergudangan, dan pengolahan data. Terbiasa melakukan pengecekan barang, pencatatan data, penyusunan laporan, serta menggunakan komputer untuk
+              mendukung pekerjaan. Mampu bekerja sama dalam tim, mengikuti prosedur kerja, dan mempelajari keterampilan baru sesuai kebutuhan perusahaan.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="keahlian">
+        <div class="wrap">
+          <h2>Keahlian Utama</h2>
+          <div class="sec-body">
+            <ul class="skills">
+              <li>
+                <h3>Operasional &amp; Distribusi</h3>
+                <p>Koordinasi lapangan, pemantauan kebutuhan, distribusi, dan pelaporan.</p>
+              </li>
+              <li>
+                <h3>Administrasi &amp; Data</h3>
+                <p>Input data, pengarsipan dokumen, laporan, dan Microsoft Office.</p>
+              </li>
+              <li>
+                <h3>Pergudangan</h3>
+                <p>Penyortiran inbound/outbound, pengecekan barang, dan kerapian gudang.</p>
+              </li>
+              <li>
+                <h3>Komputer</h3>
+                <p>Pengecekan perangkat, troubleshooting dasar, dukungan praktikum.</p>
+              </li>
+              <li>
+                <h3>Web Development</h3>
+                <p>HTML, CSS, JavaScript, PHP, Laravel, dan Tailwind CSS.</p>
+              </li>
+              <li>
+                <h3>Konten Digital</h3>
+                <p>Editing dasar menggunakan Canva dan CapCut.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="pengalaman">
+        <div class="wrap">
+          <h2>Pengalaman Kerja</h2>
+          <div class="sec-body">
+            <article class="job current">
+              <p class="date">Feb 2026 – Sekarang</p>
+              <div>
+                <h3>Asisten Lapangan</h3>
+                <p class="org">SPPG Purutrejo 2</p>
+                <p class="desc">Memantau produksi dan distribusi, ketersediaan bahan baku, jumlah porsi, koordinasi sekolah/kader posyandu, serta laporan operasional.</p>
+              </div>
+            </article>
+            <article class="job">
+              <p class="date">Des 2025 – Jan 2026</p>
+              <div>
+                <h3>Admin</h3>
+                <p class="org">PT Rajawali Assa Mandiri</p>
+                <p class="desc">Mengelola laporan bulanan, administrasi harian, dan pengelolaan media sosial.</p>
+              </div>
+            </article>
+            <article class="job">
+              <p class="date">Agu 2025 – Nov 2025</p>
+              <div>
+                <h3>Warehouse</h3>
+                <p class="org">SPX</p>
+                <p class="desc">Menyortir barang inbound/outbound, memastikan kesesuaian resi dan tujuan, serta menjaga kerapian gudang.</p>
+              </div>
+            </article>
+            <article class="job">
+              <p class="date">Sep 2024 – Des 2024</p>
+              <div>
+                <h3>Magang Web Developer</h3>
+                <p class="org">Algostudio, Malang</p>
+                <p class="desc">Membantu penambahan fitur website Management SDM, pengujian, dan perbaikan bug.</p>
+              </div>
+            </article>
+            <article class="job">
+              <p class="date">2024 – 2025</p>
+              <div>
+                <h3>Asisten Lab</h3>
+                <p class="org">Universitas PGRI Wiranegara</p>
+                <p class="desc">Pengecekan komputer, troubleshooting dasar, dan mendukung praktikum.</p>
+              </div>
+            </article>
+            <article class="job">
+              <p class="date">Okt 2018 – Mar 2019</p>
+              <div>
+                <h3>Magang Staff Admin</h3>
+                <p class="org">Badan Keuangan Daerah Kabupaten Pasuruan</p>
+                <p class="desc">Mendukung tugas administrasi dan pengelolaan dokumen.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="pendidikan">
+        <div class="wrap">
+          <h2>Pendidikan &amp; Pencapaian</h2>
+          <div class="sec-body">
+            <div class="edu">
+              <div>
+                <h3>Pendidikan</h3>
+                <div class="edu-item">
+                  <h4>S1 Ilmu Komputer</h4>
+                  <p>Universitas PGRI Wiranegara · 2021–2025</p>
+                  <p>IPK 3,70</p>
+                </div>
+                <div class="edu-item">
+                  <h4>Teknik Komputer dan Jaringan</h4>
+                  <p>SMKN 1 Pasuruan · 2017–2020</p>
+                  <p>Nilai 82,21</p>
+                </div>
+              </div>
+              <div>
+                <h3>Pencapaian &amp; Organisasi</h3>
+                <div class="edu-item">
+                  <h4>P2MW 2024</h4>
+                  <p>Pendanaan usaha kreatif “VektoRizz” — Industri Kreatif, Seni, dan Budaya.</p>
+                </div>
+                <div class="edu-item">
+                  <h4>Festival Al-Banjari dan UKM Olahraga</h4>
+                  <p>Juara 1 Festival Al-Banjari; panitia UKM Olahraga Uniwara, Pekan Olahraga 7.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="project" aria-labelledby="proyek-judul">
+        <div class="wrap">
+          <div>
+            <p class="kicker">Proyek pilihan</p>
+            <h2 id="proyek-judul">Aplikasi E-Skripsi</h2>
+            <p class="what">Aplikasi web untuk pengajuan dan peninjauan judul skripsi secara digital.</p>
+            <ul class="stack" aria-label="Teknologi">
+              <li>Laravel</li>
+              <li>PHP</li>
+              <li>Filament</li>
+              <li>MySQL</li>
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JavaScript</li>
+            </ul>
+          </div>
+          <a class="btn" href="#kontak">Hubungi Saya</a>
+        </div>
+      </section>
+
+      <section class="sec contact" id="kontak">
+        <div class="wrap">
+          <h2>Mari Terhubung</h2>
+          <div class="sec-body">
+            <dl class="contact-list">
+              <div>
+                <dt>Telepon</dt>
+                <dd id="tel">081317722726</dd>
+                <button class="copy" type="button" data-copy="081317722726" data-target="tel">Salin</button>
+              </div>
+              <div>
+                <dt>Email</dt>
+                <dd id="mail">wahyuu8613@gmail.com</dd>
+                <button class="copy" type="button" data-copy="wahyuu8613@gmail.com" data-target="mail">Salin</button>
+              </div>
+              <div class="plain">
+                <dt>Lokasi</dt>
+                <dd>Kota Pasuruan, Jawa Timur</dd>
+              </div>
+            </dl>
+            <div class="actions">
+              <a class="btn" href="mailto:wahyuu8613@gmail.com">Kirim Email</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">© 2026 M. Eko Wahyudi · Portofolio Profesional</div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      (function () {
+        var toast = document.getElementById("toast");
+        var timer;
+        function say(message) {
+          toast.textContent = message;
+          toast.classList.add("on");
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            toast.classList.remove("on");
+          }, 2000);
+        }
+        function selectText(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+        document.querySelectorAll("[data-copy]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var value = btn.getAttribute("data-copy");
+            var target = btn.getAttribute("data-target");
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(value).then(
+                function () {
+                  say("Tersalin: " + value);
+                },
+                function () {
+                  selectText(target);
+                  say("Teks sudah dipilih, salin secara manual");
+                },
+              );
+            } else {
+              selectText(target);
+              say("Teks sudah dipilih, salin secara manual");
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
