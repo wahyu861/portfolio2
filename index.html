@@ -1,8 +1,11 @@
 <!doctype html>
-<html>
+<html lang="id">
   <head>
-    <meta charset="utf8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <title>Portofolio M. Eko Wahyudi</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Sans+3:wght@400;600;700&display=swap" />
     <style>
       :root {
         color-scheme: light;
@@ -167,7 +170,7 @@
         font-size: 19px;
         letter-spacing: -0.01em;
         color: var(--ink);
-        font-variation-settings: "wdth" 80;
+        font-variation-settings: "width" 80;
       }
       .nav {
         display: flex;
@@ -255,29 +258,28 @@
 
       /* Kartu label resi */
       .box {
-        background: white;
+        background: var(--bg);
         border: 1px solid var(--line);
-        border-radius: 13%;
+        box-shadow: 5px 5px 15px black;
+        border-radius: 10%;
         padding: 25px;
       }
       .box h2 {
-        color: var(--navy);
         margin-bottom: 15px;
       }
       .muted {
         color: var(--muted);
       }
       .avatar {
-        width: 78px;
-        height: 78px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         display: grid;
-        place-items: center;
         background: var(--ink);
         color: white;
         font-size: 24px;
         font-weight: bold;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
       }
       .label dl > div {
         padding: 14px 0;
@@ -328,6 +330,7 @@
         max-width: 62ch;
         font-size: 19px;
         line-height: 1.7;
+        text-align: justify;
       }
 
       /* Keahlian */
@@ -470,6 +473,68 @@
         color: var(--band);
       }
 
+      /* Area untuk menampilkan screenshot proyek bertumpuk */
+      .project-visual {
+        position: relative;
+        width: 100%;
+        max-width: 480px;
+        height: 300px;
+        margin-inline: auto;
+      }
+
+      /* Tampilan dasar setiap screenshot */
+      .project-shot {
+        position: absolute;
+        width: 85%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border: 1px solid var(--band-line);
+        border-radius: 10px;
+        box-shadow: 0 16px 35px rgba(0, 0, 0, 0.25);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      /* Screenshot paling belakang */
+      .shot-back {
+        top: 0;
+        left: 5%;
+        transform: rotate(-8deg);
+        opacity: 0.65;
+        z-index: 1;
+      }
+
+      /* Screenshot bagian tengah */
+      .shot-middle {
+        top: 25px;
+        left: 10%;
+        transform: rotate(5deg);
+        opacity: 0.85;
+        z-index: 2;
+      }
+
+      /* Screenshot utama di bagian depan */
+      .shot-front {
+        top: 50px;
+        left: 10%;
+        z-index: 3;
+      }
+
+      /* Efek ketika kursor diarahkan ke gambar */
+      .project-visual:hover .shot-back {
+        transform: translateX(-12px) rotate(-10deg);
+      }
+
+      .project-visual:hover .shot-middle {
+        transform: translateX(8px) rotate(7deg);
+      }
+
+      .project-visual:hover .shot-front {
+        transform: translateY(-8px);
+      }
+
       /* Kontak */
       .contact {
         background: var(--surface);
@@ -584,6 +649,13 @@
         .contact-list > div.plain {
           grid-template-columns: minmax(0, 1fr);
         }
+        .project-visual {
+          max-width: 360px;
+          height: 240px;
+        }
+        .project-shot {
+          width: 90%;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         .toast,
@@ -594,12 +666,9 @@
     </style>
   </head>
   <body>
-    <title>Portofolio M. Eko Wahyudi</title>
-    <meta name="claude:viewport-fit-sides" content="cover" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Sans+3:wght@400;600;700&display=swap" />
     <header class="top">
       <div class="wrap">
-        <a class="brand" href="#home">Eko Wahyudi</a>
+        <a class="brand" href="#home">M. Eko Wahyudi</a>
         <nav class="nav" aria-label="Navigasi utama">
           <a href="#profil">Profil</a>
           <a href="#keahlian">Keahlian</a>
@@ -757,8 +826,8 @@
                   <p>Pendanaan usaha kreatif “VektoRizz” — Industri Kreatif, Seni, dan Budaya.</p>
                 </div>
                 <div class="edu-item">
-                  <h4>Festival Al-Banjari dan UKM Olahraga</h4>
-                  <p>Juara 1 Festival Al-Banjari; panitia UKM Olahraga Uniwara, Pekan Olahraga 7.</p>
+                  <h4>Festival Al-Banjari</h4>
+                  <p>Juara 1 Festival Al-Banjari se-Jawa Timur.</p>
                 </div>
               </div>
             </div>
@@ -782,7 +851,13 @@
               <li>JavaScript</li>
             </ul>
           </div>
-          <a class="btn" href="#kontak">Hubungi Saya</a>
+          <div class="project-visual">
+            <img src="project/e-skripsi/1.png" alt="Dashboard aplikasi E-Skripsi" class="project-shot shot-back" />
+
+            <img src="project/e-skripsi/2.png" alt="Halaman pengajuan judul skripsi" class="project-shot shot-middle" />
+
+            <img src="project/e-skripsi/2.png" alt="Halaman pengelolaan skripsi" class="project-shot shot-front" />
+          </div>
         </div>
       </section>
 
@@ -793,7 +868,7 @@
             <dl class="contact-list">
               <div>
                 <dt>Telepon</dt>
-                <dd id="tel">081317722726</dd>
+                <dd id="tel">083117722726</dd>
                 <button class="copy" type="button" data-copy="081317722726" data-target="tel">Salin</button>
               </div>
               <div>
@@ -815,7 +890,7 @@
     </main>
 
     <footer>
-      <div class="wrap">© 2026 M. Eko Wahyudi · Portofolio Profesional</div>
+      <div class="wrap">© 2026 M. Eko Wahyudi · Portofolio</div>
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
