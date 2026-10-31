@@ -142,7 +142,7 @@
 
       .wrap {
         width: 100%;
-        max-width: 1100px;
+        max-width: 1200px;
         margin-inline: auto;
         padding-left: max(16px, env(safe-area-inset-left, 0px));
         padding-right: max(16px, env(safe-area-inset-right, 0px));
@@ -433,7 +433,7 @@
       }
       .project .wrap {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
         gap: 24px 40px;
         align-items: end;
       }
@@ -837,7 +837,7 @@
 
       <section class="project" aria-labelledby="proyek-judul">
         <div class="wrap">
-          <div>
+          <div class="proyek">
             <p class="kicker">Proyek pilihan</p>
             <h2 id="proyek-judul">Aplikasi E-Skripsi</h2>
             <p class="what">Aplikasi web untuk pengajuan dan peninjauan judul skripsi secara digital.</p>
