@@ -473,31 +473,39 @@
         color: var(--band);
       }
 
-      /* Area untuk menampilkan screenshot proyek bertumpuk */
+      /* Area gambar bertumpuk */
       .project-visual {
         position: relative;
         width: 100%;
         max-width: 480px;
-        height: 300px;
+        height: 320px;
         margin-inline: auto;
+        overflow: visible;
+        isolation: isolate;
       }
 
-      /* Tampilan dasar setiap screenshot */
+      /* Tampilan dasar gambar */
       .project-shot {
         position: absolute;
-        width: 85%;
+        top: 25px;
+        left: 5px;
+        width: 90%;
         height: auto;
         aspect-ratio: 16 / 9;
         object-fit: cover;
         border: 1px solid var(--band-line);
         border-radius: 10px;
-        box-shadow: 0 16px 35px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 16px 35px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
         transition:
-          transform 0.3s ease,
-          box-shadow 0.3s ease;
+          transform 0.4s ease,
+          opacity 0.4s ease;
+
+        -webkit-user-select: none;
+        user-select: none;
       }
 
-      /* Screenshot paling belakang */
+      /* Gambar paling belakang */
       .shot-back {
         top: 0;
         left: 5%;
@@ -851,12 +859,12 @@
               <li>JavaScript</li>
             </ul>
           </div>
-          <div class="project-visual">
+          <div class="project-visual" id="projectStack">
             <img src="project/e-skripsi/1.png" alt="Dashboard aplikasi E-Skripsi" class="project-shot shot-back" />
 
             <img src="project/e-skripsi/2.png" alt="Halaman pengajuan judul skripsi" class="project-shot shot-middle" />
 
-            <img src="project/e-skripsi/2.png" alt="Halaman pengelolaan skripsi" class="project-shot shot-front" />
+            <img src="project/e-skripsi/3.png" alt="Halaman pengelolaan skripsi" class="project-shot shot-front" />
           </div>
         </div>
       </section>
@@ -896,6 +904,28 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const stack = document.getElementById("projectStack");
+
+        if (!stack) return;
+
+        stack.addEventListener("click", function (event) {
+          const clickedImage = event.target.closest(".project-shot");
+
+          if (!clickedImage || !stack.contains(clickedImage)) return;
+
+          const backImage = stack.querySelector(".shot-back");
+          const middleImage = stack.querySelector(".shot-middle");
+          const frontImage = stack.querySelector(".shot-front");
+
+          if (!backImage || !middleImage || !frontImage) return;
+
+          // Putar susunan agar gambar depan berpindah ke belakang.
+          frontImage.classList.replace("shot-front", "shot-back");
+          middleImage.classList.replace("shot-middle", "shot-front");
+          backImage.classList.replace("shot-back", "shot-middle");
+        });
+      });
       (function () {
         var toast = document.getElementById("toast");
         var timer;
