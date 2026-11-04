@@ -469,7 +469,7 @@ h2 {
   position: relative;
   width: 100%;
   max-width: 480px;
-  height: 320px;
+  height: 340px;
   margin-inline: auto;
   overflow: visible;
   isolation: isolate;
@@ -479,59 +479,90 @@ h2 {
 .project-shot {
   position: absolute;
   top: 25px;
-  left: 5px;
+  left: 5%;
   width: 90%;
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border: 1px solid var(--band-line);
-  border-radius: 10px;
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
   cursor: pointer;
   transition:
-    transform 0.4s ease,
-    opacity 0.4s ease;
+    transform 0.55s cubic-bezier(0.2, 0.75, 0.25, 1),
+    opacity 0.4s ease,
+    box-shadow 0.4s ease;
 
   -webkit-user-select: none;
   user-select: none;
 }
 
-/* Gambar paling belakang */
-.shot-back {
-  top: 0;
-  left: 5%;
-  transform: rotate(-8deg);
-  opacity: 0.65;
-  z-index: 1;
-}
-
-/* Screenshot bagian tengah */
-.shot-middle {
-  top: 25px;
-  left: 10%;
-  transform: rotate(5deg);
-  opacity: 0.85;
-  z-index: 2;
-}
-
-/* Screenshot utama di bagian depan */
+/* Gambar utama */
 .shot-front {
-  top: 50px;
-  left: 10%;
+  top: 4px;
+  left: 3%;
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.32);
+  z-index: 5;
+}
+
+/* gambar utama 2 */
+.shot-front1 {
+  top: 17px;
+  left: 8%;
+  transform: rotate(10deg) scale(0.98);
+  opacity: 0.82;
+  z-index: 4;
+}
+
+/* gambar tengah */
+.shot-middle {
+  top: 34px;
+  left: 6%;
+  transform: rotate(-6deg) scale(0.96);
+  opacity: 0.92;
   z-index: 3;
 }
 
+/* gambar belakang */
+.shot-back {
+  top: 48px;
+  left: 10%;
+  transform: rotate(8deg) scale(0.94);
+  opacity: 0.86;
+  z-index: 2;
+}
+
+/* gambar belakang 2 */
+.shot-back2 {
+  top: 60px;
+  left: 7%;
+  transform: rotate(-5deg) scale(0.92);
+  opacity: 0.78;
+  z-index: 1;
+}
+
 /* Efek ketika kursor diarahkan ke gambar */
-.project-visual:hover .shot-back {
-  transform: translateX(-12px) rotate(-10deg);
-}
-
-.project-visual:hover .shot-middle {
-  transform: translateX(8px) rotate(7deg);
-}
-
 .project-visual:hover .shot-front {
-  transform: translateY(-8px);
+  transform: translate(-10px, -16px) rotate(0deg) scale(1.06);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.38);
+  z-index: 6;
+}
+.project-visual:hover .shot-front1 {
+  transform: translate(14px, -12px) rotate(10deg) scale(1.02);
+  z-index: 5;
+}
+.project-visual:hover .shot-middle {
+  transform: translate(8px, -2px) rotate(1deg) scale(1.01);
+  z-index: 4;
+}
+.project-visual:hover .shot-back {
+  transform: translate(-16px, 5px) rotate(-8deg) scale(0.99);
+  z-index: 3;
+}
+.project-visual:hover .shot-back2 {
+  transform: translate(18px, 12px) rotate(2deg) scale(0.97);
+  z-index: 2;
 }
 
 /* Kontak */
@@ -650,7 +681,7 @@ footer .wrap {
   }
   .project-visual {
     max-width: 360px;
-    height: 240px;
+    height: 255px;
   }
   .project-shot {
     width: 90%;
@@ -658,7 +689,8 @@ footer .wrap {
 }
 @media (prefers-reduced-motion: reduce) {
   .toast,
-  .btn {
+  .btn,
+  .project-shot {
     transition: none;
   }
 }

@@ -194,12 +194,16 @@
               <li>JavaScript</li>
             </ul>
           </div>
-          <div class="project-visual" id="projectStack">
-            <img src="project/e-skripsi/1.png" alt="Dashboard aplikasi E-Skripsi" class="project-shot shot-back" />
+          <div class="project-visual" id="projectStack1">
+            <img src="project/e-skripsi/1.png" alt="Halaman Login aplikasi E-Skripsi" class="project-shot shot-front" />
 
-            <img src="project/e-skripsi/2.png" alt="Halaman pengajuan judul skripsi" class="project-shot shot-middle" />
+            <img src="project/e-skripsi/2.png" alt="Halaman Dashboard Admin" class="project-shot shot-front2" />
 
-            <img src="project/e-skripsi/3.png" alt="Halaman pengelolaan skripsi" class="project-shot shot-front" />
+            <img src="project/e-skripsi/3.png" alt="Halaman Dashboard Pembimbing" class="project-shot shot-middle" />
+
+            <img src="project/e-skripsi/4.png" alt="Halaman Dashboard Mahasiswa" class="project-shot shot-back" />
+
+            <img src="project/e-skripsi/5.png" alt="Halaman pengajuan judul (Pembimbing)" class="project-shot shot-back2" />
           </div>
         </div>
       </section>
@@ -208,24 +212,27 @@
         <div class="wrap">
           <div>
             <p class="kicker">Proyek pilihan</p>
-            <h2 id="proyek-judul">Aplikasi E-Skripsi</h2>
-            <p class="what">Aplikasi web untuk pengajuan dan peninjauan judul skripsi secara digital.</p>
+            <h2 id="proyek-judul">Absensi</h2>
+            <p class="what">Aplikasi web untuk absensi karyawan di Algostudio.</p>
             <ul class="stack" aria-label="Teknologi">
               <li>Laravel</li>
               <li>PHP</li>
-              <li>Filament</li>
               <li>MySQL</li>
               <li>HTML</li>
               <li>CSS</li>
               <li>JavaScript</li>
             </ul>
           </div>
-          <div class="project-visual" id="projectStack">
-            <img src="project/e-skripsi/1.png" alt="Dashboard aplikasi E-Skripsi" class="project-shot shot-back" />
+          <div class="project-visual" id="projectStack2">
+            <img src="project/absensi/1.png" alt="Dashboard User" class="project-shot shot-front" />
 
-            <img src="project/e-skripsi/2.png" alt="Halaman pengajuan judul skripsi" class="project-shot shot-middle" />
+            <img src="project/absensi/2.png" alt="Dashboard Admin" class="project-shot shot-front2" />
 
-            <img src="project/e-skripsi/3.png" alt="Halaman pengelolaan skripsi" class="project-shot shot-front" />
+            <img src="project/absensi/3.png" alt="Data Karyawan" class="project-shot shot-middle" />
+
+            <img src="project/absensi/4.png" alt="Penilaian Kinerja Karyawan" class="project-shot shot-back" />
+
+            <img src="project/absensi/5.png" alt="Tambah Penilaian Kinerja Karyawan" class="project-shot shot-back2" />
           </div>
         </div>
       </section>
@@ -266,25 +273,28 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const stack = document.getElementById("projectStack");
+        ["projectStack1", "projectStack2"].forEach(function (stackId) {
+          const stack = document.getElementById(stackId);
+          if (!stack) return;
 
-        if (!stack) return;
+          stack.addEventListener("click", function (event) {
+            const clickedImage = event.target.closest(".project-shot");
+            if (!clickedImage || !stack.contains(clickedImage)) return;
 
-        stack.addEventListener("click", function (event) {
-          const clickedImage = event.target.closest(".project-shot");
+            const frontImage = stack.querySelector(".shot-front");
+            const front2Image = stack.querySelector(".shot-front2");
+            const middleImage = stack.querySelector(".shot-middle");
+            const backImage = stack.querySelector(".shot-back");
+            const back2Image = stack.querySelector(".shot-back2");
 
-          if (!clickedImage || !stack.contains(clickedImage)) return;
+            if (!back2Image || !frontImage || !front2Image || !middleImage || !backImage) return;
 
-          const backImage = stack.querySelector(".shot-back");
-          const middleImage = stack.querySelector(".shot-middle");
-          const frontImage = stack.querySelector(".shot-front");
-
-          if (!backImage || !middleImage || !frontImage) return;
-
-          // Putar susunan agar gambar depan berpindah ke belakang.
-          frontImage.classList.replace("shot-front", "shot-back");
-          middleImage.classList.replace("shot-middle", "shot-front");
-          backImage.classList.replace("shot-back", "shot-middle");
+            back2Image.classList.replace("shot-back2", "shot-front");
+            frontImage.classList.replace("shot-front", "shot-front2");
+            front2Image.classList.replace("shot-front2", "shot-middle");
+            middleImage.classList.replace("shot-middle", "shot-back");
+            backImage.classList.replace("shot-back", "shot-back2");
+          });
         });
       });
       (function () {
